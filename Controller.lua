@@ -38,7 +38,7 @@ function Update()
 		-- The lower frequencies are often very loud compared to the higher ones, so we exponentiate to a fraction to even things out a bit
 		dest[i] = dest[i] + oMs[n]:GetValue()^0.8
 
-		-- Create the "wavy" effect by adding the values of the adjacent bars and dividing by a "springiness" value
+		-- Create the "wavy" effect by adding the values of the adjacent bars and dividing by a "spring stiffness" value
 		dest[i] = (source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)])/1.02 - dest[i]
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / 8)
