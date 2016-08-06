@@ -15,8 +15,8 @@ function Initialize()
 		tMap2[i] = 0
 	end
 
-	for i=nBars/2-5,nBars/2+5 do
-		tMap1[i] = -2
+	for i=nBars/2-7,nBars/2+7 do
+		tMap1[i] = -5
 	end
 end
 
@@ -32,12 +32,12 @@ function Update()
 
 	for i=1,nBars do
 		local n = mapi(i, 1, nBars, 1, nBands)
-		dest[i] = dest[i] + oMs[n]:GetValue()
+		dest[i] = dest[i] + oMs[n]:GetValue()^0.8
 
 		dest[i] = (source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)])/1.02 - dest[i]
 		dest[i] = dest[i] - (dest[i] / 8)
 
-		SKIN:Bang("!SetOption", "MsCalc" .. i, "Formula", map(-dest[i], -6, 6, -1, 1))
+		SKIN:Bang("!SetOption", "MsCalc" .. i, "Formula", map(-dest[i], -7, 7, -1, 1))
 	end
 
 	bUseMap1 = not bUseMap1
