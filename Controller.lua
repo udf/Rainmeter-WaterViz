@@ -8,35 +8,42 @@ function Initialize()
 	end
 
 	bUseMap1 = true
-	tMap1 = {}
-	tMap2 = {}
+	tHeightMap1 = {}
+	tHeightMap2 = {}
 	for i=1,nBars do
-		tMap1[i] = 0
-		tMap2[i] = 0
+		tHeightMap1[i] = 0
+		tHeightMap2[i] = 0
 	end
 
+	-- Create a load animation by setting the depth of the water in the center
 	for i=nBars/2-7,nBars/2+7 do
-		tMap1[i] = -5
+		tHeightMap1[i] = -5
 	end
 end
 
 function Update()
 	local source, dest
 	if bUseMap1 then
-		source = tMap1
-		dest = tMap2
+		source = tHeightMap1
+		dest = tHeightMap2
 	else
-		source = tMap2
-		dest = tMap1
+		source = tHeightMap2
+		dest = tHeightMap1
 	end
 
 	for i=1,nBars do
+		-- Map this bar to the closest band
 		local n = mapi(i, 1, nBars, 1, nBands)
+		-- Increase the depth of this bar by the value of the parent band
+		-- The lower frequencies are often very loud compared to the higher ones, so we exponentiate to a fraction to even things out a bit
 		dest[i] = dest[i] + oMs[n]:GetValue()^0.8
 
+		-- Create the "wavy" effect by adding the values of the adjacent bars and dividing by a "springiness" value
 		dest[i] = (source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)])/1.02 - dest[i]
+		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / 8)
 
+		-- Set the value of the Calc measures so we can control multiple meters from the same script
 		SKIN:Bang("!SetOption", "MsCalc" .. i, "Formula", map(-dest[i], -7, 7, -1, 1))
 	end
 
@@ -53,16 +60,11 @@ function cl(var, min, max)
 	return var
 end
 
-function interpolate(weight, v1, v2)
-	return weight * (v2 - v1) + v1
-end
-
 function map(nVar, nMin1, nMax1, nMin2, nMax2)
 	return nMin2 + (nMax2 - nMin2) * ((nVar - nMin1) / (nMax1 - nMin1))
 end
-
 function mapi(nVar, nMin1, nMax1, nMin2, nMax2)
-	return math.floor(nMin2 + (nMax2 - nMin2) * ((nVar - nMin1) / (nMax1 - nMin1)))
+	return math.floor(map(nVar, nMin1, nMax1, nMin2, nMax2))
 end
 
 -- Returns a rainmeter variable rounded down to an integer
