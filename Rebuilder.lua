@@ -68,7 +68,7 @@ function Rebuild()
 		o:AddKey("Sensitivity", 30)
 		o:AddKey("Bands", iBandCount + 1)
 	o:Commit()
-
+	
 	for i=1,iBandCount do
 		local o = oIni:NewSection("MsBand" .. i)
 			o:AddKey("Measure", "Plugin")
