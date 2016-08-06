@@ -55,19 +55,7 @@ function Rebuild()
 
 	oIni = iniBuilder()
 
-	local o = oIni:NewSection("MeasureAudio")
-		o:AddKey("Measure", "Plugin")
-		o:AddKey("Plugin", "AudioLevel")
-		o:AddKey("Port", "Output")
-		o:AddKey("FFTSize", 16384)
-		o:AddKey("FFTOverlap", 16000)
-		o:AddKey("FFTAttack", 0)
-		o:AddKey("FFTDecay", 0)
-		o:AddKey("FreqMin", 25)
-		o:AddKey("FreqMax", 10000)
-		o:AddKey("Sensitivity", 30)
-		o:AddKey("Bands", iBandCount + 1)
-	o:Commit()
+	SKIN:Bang("!WriteKeyValue", "MeasureAudio", "Bands", iBandCount+1, "#CURRENTPATH#measures.inc")
 	
 	for i=1,iBandCount do
 		local o = oIni:NewSection("MsBand" .. i)

@@ -1,0 +1,12 @@
+[MeasureAudio]
+Measure=Plugin
+Plugin=AudioLevel
+Port=Output
+FFTSize=16384
+FFTOverlap=16000
+FFTAttack=0
+FFTDecay=0
+FreqMin=25
+FreqMax=10000
+Sensitivity=25
+Bands=101
