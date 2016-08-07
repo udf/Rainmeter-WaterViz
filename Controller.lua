@@ -1,10 +1,16 @@
 function Initialize()
 	nBands = RmGetUInt("BandCount", 100)
 	nBars = RmGetUInt("BarCount", 100)
+	iHeight = RmGetUInt("Height", 150)
+	halfHeight = iHeight/2
 
 	oMs = {}
 	for i=1,nBands do
 		oMs[i] = SKIN:GetMeasure("MsBand" .. i)
+	end
+	oMt = {}
+	for i=1,nBars do
+		oMt[i] = SKIN:GetMeter("MtBar" .. i)
 	end
 
 	bUseMap1 = true
@@ -43,11 +49,21 @@ function Update()
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / 8)
 
-		-- Set the value of the Calc measures so we can control multiple meters from the same script
-		SKIN:Bang("!SetOption", "MsCalc" .. i, "Formula", map(-dest[i], -7, 7, -1, 1))
+		oMt[i]:SetH( ImgBarH(-dest[i]/7, halfHeight) )
+		oMt[i]:SetY( ImgBarY(-dest[i]/7, halfHeight) )
 	end
 
 	bUseMap1 = not bUseMap1
+end
+
+function ImgBarH(n, r)
+	return math.abs(n)*r
+end
+function ImgBarY(n, r)
+	if n > 0 then
+		return (1-n)*r
+	end
+	return r
 end
 
 function cl(var, min, max)

@@ -9,4 +9,4 @@ FFTDecay=0
 FreqMin=25
 FreqMax=10000
 Sensitivity=30
-Bands=101
+Bands=129

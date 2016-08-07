@@ -48,8 +48,6 @@ function Rebuild()
 	-- Revert the key to 0 to prevent an infinite loop (which is not as fun as it seems)
 	SKIN:Bang("!WriteKeyValue", "Variables", "Rebuild", "0")
 
-	print("REBUILD TIME")
-
 	local iBandCount = RmGetUInt("BandCount", 100)
 	local iBarCount = RmGetUInt("BarCount", 100)
 
@@ -68,23 +66,9 @@ function Rebuild()
 	end
 
 	for i=1,iBarCount do
-		local o = oIni:NewSection("MsCalc" .. i)
-			o:AddKey("Measure", "Calc")
-			o:AddKey("Formula", 0)
-		o:Commit()
-		local o = oIni:NewSection("MsCalcL" .. i)
-			o:AddKey("Measure", "Calc")
-			o:AddKey("Formula", "-MsCalc" .. i)
-		o:Commit()
 		local o = oIni:NewSection("MtBar" .. i)
-			o:AddKey("Meter", "Bar")
+			o:AddKey("Meter", "Image")
 			o:AddKey("MeterStyle", "StBar")
-			o:AddKey("MeasureName", "MsCalc" .. i)
-		o:Commit()
-		local o = oIni:NewSection("MtBarL" .. i)
-			o:AddKey("Meter", "Bar")
-			o:AddKey("MeterStyle", "StBar|StBarL")
-			o:AddKey("MeasureName", "MsCalcL" .. i)
 		o:Commit()
 	end
 
