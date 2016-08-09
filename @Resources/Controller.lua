@@ -32,6 +32,7 @@ function Initialize()
 	tC.Height = RmGetUInt("Height", 150)/2
 	tC.ExpScaleFactor = RmGetNumber("ExpScaleFactor", 0.8)
 	tC.Stiffness = RmGetNumber("Stiffness", 1.02)
+	if tC.Stiffness <= 1 then tC.Stiffness = 1 end
 	tC.Spread = RmGetNumber("Spread", 8)
 	tC.Scale = RmGetNumber("Scale", 7)
 
