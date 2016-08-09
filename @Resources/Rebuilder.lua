@@ -33,9 +33,6 @@ function Initialize()
 	end
 end
 
--- TODO: Figure out if i actually need to leave this here
-function Update()
-end
 
 function Rebuild()
 	-- If rebuild was selected from the context menu then we should refresh the skin (to reload the variables) and then rebuild the meters
