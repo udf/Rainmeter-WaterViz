@@ -30,15 +30,11 @@ function Initialize()
 	tC = {}
 	tC.Separation = RmGetUInt("Separation", 0)
 	tC.Height = RmGetUInt("Height", 150)/2
-	tC.ExpScaleFactor = RmGetNumber("ExpScaleFactor", 0.8)
+	tC.ExpScaleFactor = RmGetUNumber("ExpScaleFactor", 0.8)
 	tC.Stiffness = RmGetNumber("Stiffness", 1.02)
 	if tC.Stiffness <= 1 then tC.Stiffness = 1 end
-	tC.Spread = RmGetNumber("Spread", 8)
-	tC.Scale = RmGetNumber("Scale", 7)
-
-	tC.BarW = RmGetNumber("BarW", 5)
-	tC.BarSp = RmGetNumber("BarSp", 1)
-	tC.BarColour = RmGetStr("BarColour", "C2C2C2")
+	tC.Spread = RmGetUNumber("Spread", 8)
+	tC.Scale = RmGetUNumber("Scale", 7)
 end
 
 function Update()
@@ -106,6 +102,10 @@ end
 -- Returns a rainmeter variable represented as a (floating point) number
 function RmGetNumber(sVar, iDefault)
 	return tonumber(SKIN:GetVariable(sVar, iDefault))
+end
+-- Returns a rainmeter variable represented as a positive (floating point) number
+function RmGetUNumber(sVar, iDefault)
+	return math.abs(tonumber(SKIN:GetVariable(sVar, iDefault)))
 end
 -- Alias for SKIN:GetVariable
 function RmGetStr(sVar, iDefault)
