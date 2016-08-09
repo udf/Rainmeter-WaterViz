@@ -9,8 +9,6 @@ Stiffness=1.02
 Spread=8
 Scale=7
 
-
-Rebuild=0
 ; Requires setting Rebuild to 1
 BarCount=200
 BandCount=128

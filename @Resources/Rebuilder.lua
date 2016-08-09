@@ -28,7 +28,7 @@ function Initialize()
 	end
 
 	-- Rebuild the skin if the ini says that we should
-	if RmGetInt("Rebuild", 0) == 1 then
+	if RmGetInt("Rebuild", 0) == 1 or RmGetUInt("BandCount", 100) ~= RmGetUInt("InternalBandCount", 100) or RmGetUInt("BarCount", 100) ~= RmGetUInt("InternalBarCount", 100) then
 		Rebuild()
 	end
 end
@@ -50,6 +50,10 @@ function Rebuild()
 
 	local iBandCount = RmGetUInt("BandCount", 100)
 	local iBarCount = RmGetUInt("BarCount", 100)
+	
+	SKIN:Bang("!WriteKeyValue", "Variables", "InternalBandCount", iBandCount)
+	SKIN:Bang("!WriteKeyValue", "Variables", "InternalBarCount", iBarCount)
+
 
 	oIni = iniBuilder()
 
