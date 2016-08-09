@@ -14,7 +14,7 @@ ExpScaleFactor=0.8
 Stiffness=1.02
 Spread=8
 Scale=7
-ShowBounds=1
+HideBounds=0
 BarCount=200
 BandCount=128
 FFTSize=16384
@@ -22,6 +22,7 @@ FFTOverlap=16000
 FreqMin=20
 FreqMax=10000
 Sensitivity=30
+HideFPS=0
 
 [StBar]
 W=#BarW#
@@ -41,7 +42,7 @@ Format="%S"
 [LuaFps]
 Measure=Script
 ScriptFile="#ROOTCONFIGPATH#@Resources\fps.lua"
-Disabled=0
+Disabled=#HideFPS#
 
 [MeasureAudio]
 Measure=Plugin
@@ -62,7 +63,7 @@ W=#CURRENTCONFIGWIDTH#
 H=#CURRENTCONFIGHEIGHT#
 DynamicVariables=1
 SolidColor=0,0,0,100
-Hidden=#ShowBounds#
+Hidden=#HideBounds#
 
 
 [MeterFPS]
