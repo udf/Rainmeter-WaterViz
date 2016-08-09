@@ -4,6 +4,25 @@ DynamicWindowSize=1
 ContextTitle=Rebuild skin
 ContextAction=[!CommandMeasure "LuaRebuilder" "Rebuild()"]
 
+[Variables]
+BarW=5
+BarSp=1
+BarColour=FF0000
+Height=300
+Separation=0
+ExpScaleFactor=0.8
+Stiffness=1.02
+Spread=8
+Scale=7
+ShowBounds=1
+BarCount=200
+BandCount=128
+FFTSize=16384
+FFTOverlap=16000
+FreqMin=20
+FreqMax=10000
+Sensitivity=30
+
 [StBar]
 W=#BarW#
 X=#BarSp#R
