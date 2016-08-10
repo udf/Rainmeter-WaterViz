@@ -28,10 +28,6 @@ Spread=8
 ; The scale of the meter. Decrease if the bars seem to small; Increase if the bars are clipping
 Scale=7
 
-; Set this to 0 to show a black background
-; Useful when positioning the skin (or checking for clipping)
-HideBounds=1
-
 ; Set this to 0 to show a fps counter
 HideFPS=1
 

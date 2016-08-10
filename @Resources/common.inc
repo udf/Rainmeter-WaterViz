@@ -16,7 +16,6 @@ ExpScaleFactor=0.8
 Stiffness=1.02
 Spread=8
 Scale=7
-HideBounds=0
 BarCount=200
 BandCount=128
 FFTSize=16384
@@ -64,8 +63,7 @@ Meter=Image
 W=#CURRENTCONFIGWIDTH#
 H=#CURRENTCONFIGHEIGHT#
 DynamicVariables=1
-SolidColor=0,0,0,100
-Hidden=#HideBounds#
+SolidColor=0,0,0,1
 
 
 [MeterFPS]
