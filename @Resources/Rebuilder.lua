@@ -51,11 +51,8 @@ function Rebuild()
 	SKIN:Bang("!WriteKeyValue", "Variables", "InternalBandCount", iBandCount)
 	SKIN:Bang("!WriteKeyValue", "Variables", "InternalBarCount", iBarCount)
 
-
 	oIni = iniBuilder()
 
-	SKIN:Bang("!WriteKeyValue", "MeasureAudio", "Bands", iBandCount+1, "#CURRENTPATH#measures.inc")
-	
 	for i=1,iBandCount do
 		local o = oIni:NewSection("MsBand" .. i)
 			o:AddKey("Measure", "Plugin")

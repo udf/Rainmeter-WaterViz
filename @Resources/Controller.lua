@@ -24,7 +24,7 @@ function Initialize()
 
 	-- Create a load animation by setting the depth of the water in the center
 	for i=nBars/2-7,nBars/2+7 do
-		tHeightMap1[i] = -5
+		tHeightMap1[i] = -3
 	end
 
 	tC = {}
@@ -56,6 +56,11 @@ function Update()
 		dest[i] = (source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)])/tC.Stiffness - dest[i]
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / tC.Spread)
+
+		-- check for clipping
+		if -dest[i] > tC.Scale then
+			print( ("Clipping detected (%.2f, %d); consider increasing Scale in %s\\@Resources\\variables.inc"):format(-dest[i], i, RmGetStr("CURRENTCONFIG")) )
+		end
 
 		oMt[i]:SetH( ImgBarH(-dest[i]/tC.Scale, tC.Height) )
 		oMt[i]:SetY( ImgBarY(-dest[i]/tC.Scale, tC.Height, tC.Separation) )

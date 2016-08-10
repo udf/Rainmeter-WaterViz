@@ -3,6 +3,8 @@ Update=15
 DynamicWindowSize=1
 ContextTitle=Rebuild skin
 ContextAction=[!CommandMeasure "LuaRebuilder" "Rebuild()"]
+ContextTitle2=Edit variables
+ContextAction2=[notepad.exe "#CURRENTPATH#@Resources\variables.inc"]
 
 [Variables]
 BarW=5

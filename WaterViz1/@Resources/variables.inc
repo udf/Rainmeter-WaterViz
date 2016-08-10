@@ -15,7 +15,7 @@ Height=300
 ; Useful if you are placing the skin on a line
 Separation=0
 
-; Controls the normalization of the bars. higher values means more normalization is applied
+; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.8)
 ExpScaleFactor=0.8
 
