@@ -67,6 +67,9 @@ function Rebuild()
 		local o = oIni:NewSection("MtBar" .. i)
 			o:AddKey("Meter", "Image")
 			o:AddKey("MeterStyle", "StBar")
+			if i == 1 then 
+				o:AddKey("X", "0")
+			end
 		o:Commit()
 	end
 

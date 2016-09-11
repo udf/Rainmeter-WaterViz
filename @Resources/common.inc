@@ -1,35 +1,50 @@
 [Rainmeter]
 Update=15
 DynamicWindowSize=1
+
 ContextTitle=Rebuild skin
 ContextAction=[!CommandMeasure "LuaRebuilder" "Rebuild()"]
+
 ContextTitle2=Edit variables
 ContextAction2=[notepad.exe "#CURRENTPATH#@Resources\variables.inc"]
 
 [Variables]
+; Non-dynamic
 BarW=5
 BarSp=1
 BarColour=FF0000
+; Lua
 Height=300
 Separation=0
 ExpScaleFactor=0.8
 Stiffness=1.02
 Spread=8
 Scale=7
+
+; Requires rebuild
 BarCount=200
 BandCount=128
+
+; Dynamic
+HideFPS=0
 FFTSize=16384
 FFTOverlap=16000
 FreqMin=20
 FreqMax=10000
 Sensitivity=30
-HideFPS=0
 
 [StBar]
 W=#BarW#
 X=#BarSp#R
 SolidColor=#BarColour#
 
+[StText]
+StringStyle=Bold
+StringEffect=Shadow
+FontEffectColor=0,0,0,200
+FontColor=FFFFFF
+FontSize=10
+AntiAlias=1
 
 [LuaRebuilder]
 Measure=Script
@@ -65,14 +80,6 @@ H=#CURRENTCONFIGHEIGHT#
 DynamicVariables=1
 SolidColor=0,0,0,1
 
-
 [MeterFPS]
 Meter=String
-Text=""
-StringAlign=LEFT
-StringStyle=BOLD
-StringEffect=SHADOW
-FontEffectColor=0,0,0,200
-FontColor=FFFFFF
-FontSize=10
-AntiAlias=1
+MeterStyle=StText

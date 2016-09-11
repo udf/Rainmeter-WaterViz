@@ -69,7 +69,6 @@ function Update()
 	bUseMap1 = not bUseMap1
 end
 
-
 function ImgBarH(n, r)
 	return math.abs(n)*r
 end
