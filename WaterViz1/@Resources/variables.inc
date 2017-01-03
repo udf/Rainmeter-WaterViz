@@ -38,5 +38,5 @@ BandCount=128
 FFTSize=16384
 FFTOverlap=16000
 FreqMin=20
-FreqMax=10000
+FreqMax=15000
 Sensitivity=30
