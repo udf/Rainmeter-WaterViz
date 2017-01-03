@@ -9,13 +9,9 @@ ContextTitle2=Edit variables
 ContextAction2=[notepad.exe "#CURRENTPATH#@Resources\variables.inc"]
 
 [Variables]
-; Non-dynamic
-BarW=5
-BarSp=1
-BarColour=FF0000
 ; Lua
+Width=1000
 Height=300
-Separation=0
 ExpScaleFactor=0.8
 Stiffness=1.02
 Spread=8
@@ -26,17 +22,14 @@ BarCount=200
 BandCount=128
 
 ; Dynamic
+StrokeWidth=2
+CurveColor=FF0000
 HideFPS=0
 FFTSize=16384
 FFTOverlap=16000
 FreqMin=20
 FreqMax=10000
 Sensitivity=30
-
-[StBar]
-W=#BarW#
-X=#BarSp#R
-SolidColor=#BarColour#
 
 [StText]
 StringStyle=Bold
@@ -83,3 +76,9 @@ SolidColor=0,0,0,1
 [MeterFPS]
 Meter=String
 MeterStyle=StText
+
+[Shape1]
+Meter=Shape
+X=0
+Y=0
+Shape=Path MyPath | StrokeWidth #StrokeWidth# | Stroke Color #CurveColor#

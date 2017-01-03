@@ -6,11 +6,6 @@ function Initialize()
 	for i=1,nBands do
 		oMs[i] = SKIN:GetMeasure("MsBand" .. i)
 	end
-	oMt = {}
-	for i=1,nBars do
-		oMt[i] = SKIN:GetMeter("MtBar" .. i)
-	end
-
 	bUseMap1 = true
 	tHeightMap1 = {}
 	tHeightMap2 = {}
@@ -28,13 +23,36 @@ function Initialize()
 	end
 
 	tC = {}
-	tC.Separation = RmGetUInt("Separation", 0)
 	tC.Height = RmGetUInt("Height", 150)/2
 	tC.ExpScaleFactor = RmGetUNumber("ExpScaleFactor", 0.8)
 	tC.Stiffness = RmGetNumber("Stiffness", 1.02)
 	if tC.Stiffness <= 1 then tC.Stiffness = 1 end
 	tC.Spread = RmGetUNumber("Spread", 8)
 	tC.Scale = RmGetUNumber("Scale", 7)
+	tC.Width = RmGetUNumber("Width", 1000)
+	if tC.Width <= 0 then tC.Width = 1 end
+	tC.Width = tC.Width / nBars
+end
+
+function toCurve(t, xStart, yStart, ySize, xSize, tScale)
+
+	local xEnd, yEnd, yVal, yValNext
+	local xMax = xSize*#t
+	local xCOffset = xSize/2
+
+	yValNext = (ySize * t[1] - tScale * yStart) / -tScale
+	local str = {("%d,%d"):format(xStart, yValNext)}
+
+	for i=1,#t do
+		xEnd = xStart + xMax*(i/#t)
+		yVal = yValNext
+		yValNext = (ySize * t[cl(i+1, 1, #t)] - tScale * yStart) / -tScale
+		yEnd = (yVal + yValNext)/2
+
+		table.insert(str, (" | CurveTo %d,%d,%d,%d"):format(xEnd, yEnd, xEnd-xCOffset, yVal))
+	end
+
+	return table.concat(str)
 end
 
 function Update()
@@ -53,31 +71,16 @@ function Update()
 		dest[i] = dest[i] + oMs[ tParentBand[i] ]:GetValue()^tC.ExpScaleFactor
 
 		-- Create the "wavy" effect by adding the values of the adjacent bars and dividing by a "spring stiffness" value
-		dest[i] = (source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)])/tC.Stiffness - dest[i]
+		dest[i] = ( source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)] ) / tC.Stiffness - dest[i]
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / tC.Spread)
-
-		-- check for clipping
-		if -dest[i] > tC.Scale then
-			print( ("Clipping detected (%.2f, %d); consider increasing Scale in %s\\@Resources\\variables.inc"):format(-dest[i], i, RmGetStr("CURRENTCONFIG")) )
-		end
-
-		oMt[i]:SetH( ImgBarH(-dest[i]/tC.Scale, tC.Height) )
-		oMt[i]:SetY( ImgBarY(-dest[i]/tC.Scale, tC.Height, tC.Separation) )
 	end
+
+	SKIN:Bang("!SetOption", "Shape1", "MyPath", toCurve(dest, 0, tC.Height, tC.Height, tC.Width, -tC.Scale))
 
 	bUseMap1 = not bUseMap1
 end
 
-function ImgBarH(n, r)
-	return math.abs(n)*r
-end
-function ImgBarY(n, r, s)
-	if n > 0 then
-		return (1-n)*r
-	end
-	return r + s - 1
-end
 function cl(var, min, max)
 	if var < min then 
 		return min

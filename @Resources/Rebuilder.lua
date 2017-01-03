@@ -63,16 +63,6 @@ function Rebuild()
 		o:Commit()
 	end
 
-	for i=1,iBarCount do
-		local o = oIni:NewSection("MtBar" .. i)
-			o:AddKey("Meter", "Image")
-			o:AddKey("MeterStyle", "StBar")
-			if i == 1 then 
-				o:AddKey("X", "0")
-			end
-		o:Commit()
-	end
-
 	local file = io.open(RmGetString("CURRENTPATH") .. "generated.inc", "w+")
 	file:write(oIni:ToString())
 	file:close()

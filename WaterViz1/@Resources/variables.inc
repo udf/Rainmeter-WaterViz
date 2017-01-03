@@ -1,37 +1,33 @@
 [Variables]
-; The width (in pixels) of each bar
-BarW=5
-
-; The space (in pixels) between each bar
-BarSp=1
-
-; The color of the bars
-BarColour=C2C2C2
+; The width (in pixels) of the skin
+Width=1000
 
 ; The total height of the skin
 Height=300
 
-; The separation between the upper and lower parts of the bars
-; Useful if you are placing the skin on a line
-Separation=0
+; The color of the curve
+CurveColor=000000
+
+; The width of the line used to draw the curve
+StrokeWidth=1.5
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.8)
 ExpScaleFactor=0.8
 
-; Controls how "stiff" the liquid is, best kept at the default (1.02)
-Stiffness=1.02
+; Controls how "stiff" the liquid is, best kept at the default (1.03)
+Stiffness=1.03
 
 ; Controls how far a disturbance travels before dying out
 Spread=8
 
-; The scale of the meter. Decrease if the bars seem to small; Increase if the bars are clipping
+; The scale of the meter. Decrease if the curve seem to small; Increase if the curve is clipping
 Scale=7
 
 ; Set this to 0 to show a fps counter
 HideFPS=1
 
-; The number of bars drawn
+; The number of individual curve sections drawn
 BarCount=200
 
 ; The number of bands that the AudioLevel plugin uses
