@@ -40,13 +40,13 @@ function toCurve(t, xStart, yStart, ySize, xSize, tScale)
 	local xMax = xSize*#t
 	local xCOffset = xSize/2
 
-	yValNext = (ySize * t[1] - tScale * yStart) / -tScale
+	yValNext = map(t[1], -tScale, tScale, yStart+ySize, yStart-ySize)
 	local str = {("%d,%d"):format(xStart, yValNext)}
 
 	for i=1,#t do
-		xEnd = xStart + xMax*(i/#t)
+		xEnd = map(i, 1, #t, xStart, xMax)
 		yVal = yValNext
-		yValNext = (ySize * t[cl(i+1, 1, #t)] - tScale * yStart) / -tScale
+		yValNext = map(t[cl(i+1, 1, #t)], -tScale, tScale, yStart+ySize, yStart-ySize)
 		yEnd = (yVal + yValNext)/2
 
 		table.insert(str, (" | CurveTo %d,%d,%d,%d"):format(xEnd, yEnd, xEnd-xCOffset, yVal))
