@@ -81,4 +81,4 @@ MeterStyle=StText
 Meter=Shape
 X=0
 Y=0
-Shape=Path MyPath | StrokeWidth #StrokeWidth# | Stroke Color #CurveColor#
+Shape=Path MyPath | #CurveOptions#
