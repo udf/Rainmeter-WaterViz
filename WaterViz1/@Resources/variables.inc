@@ -34,8 +34,9 @@ BandCount=256
 
 ; AudioLevel options
 ; see https://docs.rainmeter.net/manual/plugins/audiolevel/ for more info
+; Decrease FFTSize to 8192, 4096, or 2048 is you have performace issues
 FFTSize=16384
-FFTOverlap=16000
+FFTOverlap=(#FFTSize#-(#FFTSize#/32))
 FreqMin=20
 FreqMax=15000
 Sensitivity=35
