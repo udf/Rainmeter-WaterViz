@@ -30,8 +30,10 @@ function Initialize()
 	tC.Spread = RmGetUNumber("Spread", 8)
 	tC.Scale = RmGetUNumber("Scale", 7)
 	tC.Width = RmGetUNumber("Width", 1000)
-	if tC.Width <= 0 then tC.Width = 1 end
-	tC.Width = tC.Width / nBars
+	if tC.Width <= 0 then tC.Width = 1000 end
+
+	tC.FillY = RmGetUNumber("FillY", 0)
+	tC.Fill = RmGetUNumber("Fill", 0) > 0
 end
 
 function toCurve(t, xStart, yStart, ySize, xSize, tScale)
@@ -43,16 +45,20 @@ function toCurve(t, xStart, yStart, ySize, xSize, tScale)
 	yValNext = map(t[1], -tScale, tScale, yStart+ySize, yStart-ySize)
 	local str = {("%d,%d"):format(xStart, yValNext)}
 
+	if tC.Fill then str[1] = ("%d,%d | LineTo "):format(0, tC.FillY) .. str[1] end
+
 	for i=1,#t do
 		xEnd = map(i, 1, #t, xStart, xMax)
 		yVal = yValNext
 		yValNext = map(t[cl(i+1, 1, #t)], -tScale, tScale, yStart+ySize, yStart-ySize)
 		yEnd = (yVal + yValNext)/2
 
-		table.insert(str, (" | CurveTo %d,%d,%d,%d"):format(xEnd, yEnd, xEnd-xCOffset, yVal))
+		table.insert(str, ("CurveTo %d,%d,%d,%d"):format(xEnd, yEnd, xEnd-xCOffset, yVal))
 	end
 
-	return table.concat(str)
+	if tC.Fill then table.insert(str, ("LineTo %d,%d"):format(tC.Width, tC.FillY)) end
+
+	return table.concat(str, "|")
 end
 
 function Update()
@@ -76,7 +82,7 @@ function Update()
 		dest[i] = dest[i] - (dest[i] / tC.Spread)
 	end
 
-	SKIN:Bang("!SetOption", "Shape1", "MyPath", toCurve(dest, 0, tC.Height, tC.Height, tC.Width, -tC.Scale))
+	SKIN:Bang("!SetOption", "Shape1", "MyPath", toCurve(dest, 0, tC.Height, tC.Height, tC.Width / nBars, -tC.Scale))
 
 	bUseMap1 = not bUseMap1
 end

@@ -22,8 +22,6 @@ BarCount=200
 BandCount=128
 
 ; Dynamic
-StrokeWidth=2
-CurveColor=FF0000
 HideFPS=0
 FFTSize=16384
 FFTOverlap=16000
@@ -82,3 +80,4 @@ Meter=Shape
 X=0
 Y=0
 Shape=Path MyPath | #CurveOptions#
+MyPath=0,0 | LineTo -1,-1

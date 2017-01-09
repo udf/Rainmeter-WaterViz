@@ -1,19 +1,18 @@
 [Variables]
 ; The width (in pixels) of the skin
-Width=1000
+Width=1280
 
 ; The total height of the skin
 Height=300
 
 ; Set to 1 to make the skin a filled shape (honestly it's hard to explain, just try it)
 ; FillY is the location of the horizontal line that defines the fill, recommended values are 0 or #Height#
-Fill=0
+Fill=1
 FillY=#Height#
 
 ; Options for the Shape meter
 ; See for https://docs.rainmeter.net/manual/meters/shape/#AttributeModifiers more info
-CurveOptions=StrokeWidth 3 | Stroke LinearGradient Rainbow
-;CurveOptions=StrokeWidth 3 | Stroke Color FFFFFF
+CurveOptions=StrokeWidth 3 | Stroke Color FFFFFF00 | Fill Color 0000007F
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.8)
@@ -45,6 +44,3 @@ FFTOverlap=0
 FreqMin=20
 FreqMax=15000
 Sensitivity=35
-
-[Shape1]
-Rainbow=180 | ED3237;0.0 | F58634;0.16 | FFF212;0.32 | 00A859;0.50 | 00AFEF;0.67 | 0083C8;0.83 | A8518A;1.0
