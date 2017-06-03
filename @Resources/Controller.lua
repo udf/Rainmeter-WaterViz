@@ -1,97 +1,121 @@
 function Initialize()
-	nBands = RmGetUInt("BandCount", 100)
-	nBars = RmGetUInt("BarCount", 100)
+	config = {}
 
-	oMs = {}
-	for i=1,nBands do
-		oMs[i] = SKIN:GetMeasure("MsBand" .. i)
+	config.band_count = RmGetUInt("BandCount", 100)
+	config.bar_count = RmGetUInt("BarCount", 100)
+
+	config.height = RmGetUInt("Height", 150)
+	config.width = RmGetUNumber("Width", 1000)
+
+	config.exp_scale_factor = RmGetUNumber("ExpScaleFactor", 0.8)
+	config.stiffness = RmGetNumber("Stiffness", 1.02)
+	if config.stiffness <= 1 then config.stiffness = 1 end
+	config.spread = RmGetUNumber("Spread", 8)
+	config.scale = RmGetUNumber("Scale", 7)
+
+	config.fill_y = RmGetUNumber("FillY", 0)
+	config.fill = RmGetUNumber("Fill", 0) > 0
+
+	config.flip_vertical = (RmGetUNumber("FlipV", 0) > 0) and -1 or 1
+	config.flip_horizontal = RmGetUNumber("FlipH", 0) > 0
+	local horizontal_flipper = 0
+	if config.flip_horizontal then
+		horizontal_flipper = config.band_count+1
 	end
-	bUseMap1 = true
-	tHeightMap1 = {}
-	tHeightMap2 = {}
-	tParentBand = {}
-	for i=1,nBars do
-		tHeightMap1[i] = 0
-		tHeightMap2[i] = 0
 
-		tParentBand[i] = mapi(i, 1, nBars, 1, nBands)
+	config.anchor_left = RmGetUNumber("AnchorLeft", 0) > 0
+	config.anchor_right = RmGetUNumber("AnchorRight", 0) > 0
+
+	config.force = RmGetUNumber("AnchorRight", 0) > 0
+
+	band_measure = {}
+	for i=1,config.band_count do
+		band_measure[i] = SKIN:GetMeasure("MsBand" .. math.abs(horizontal_flipper - i))
+	end
+	bar_index_to_band = {}
+	for i=1,config.bar_count do
+		bar_index_to_band[i] = math.floor(map(i, 1, config.bar_count, 1, config.band_count))
+	end
+
+	buffer1_is_source = true
+	buffer1 = {}
+	buffer2 = {}
+	for i=1,config.bar_count do
+		buffer1[i] = 0
+		buffer2[i] = 0
 	end
 
 	-- Create a load animation by setting the depth of the water in the center
-	for i=nBars/2-7,nBars/2+7 do
-		tHeightMap1[i] = -3
+	for i=config.bar_count/2-7,config.bar_count/2+7 do
+		buffer1[i] = -3
 	end
-
-	tC = {}
-	tC.Height = RmGetUInt("Height", 150)/2
-	tC.ExpScaleFactor = RmGetUNumber("ExpScaleFactor", 0.8)
-	tC.Stiffness = RmGetNumber("Stiffness", 1.02)
-	if tC.Stiffness <= 1 then tC.Stiffness = 1 end
-	tC.Spread = RmGetUNumber("Spread", 8)
-	tC.Scale = RmGetUNumber("Scale", 7)
-	tC.Width = RmGetUNumber("Width", 1000)
-	if tC.Width <= 0 then tC.Width = 1000 end
-
-	tC.FillY = RmGetUNumber("FillY", 0)
-	tC.Fill = RmGetUNumber("Fill", 0) > 0
 end
 
-function toCurve(t, xStart, yStart, ySize, xSize, tScale)
+function drawNiceCurveFromTable(t, t_min, t_max, curve_min_y, curve_max_y, curve_max_x, fill_line_y)
+	local width_per_segment = curve_max_x / #t
+	local current_y = clip(map(t[1], t_min, t_max, curve_min_y, curve_max_y), curve_min_y, curve_max_y)
 
-	local xEnd, yEnd, yVal, yValNext
-	local xMax = xSize*#t
-	local xCOffset = xSize/2
-
-	yValNext = map(t[1], -tScale, tScale, yStart+ySize, yStart-ySize)
-	local str = {("%d,%d"):format(xStart, yValNext)}
-
-	if tC.Fill then str[1] = ("%d,%d | LineTo "):format(0, tC.FillY) .. str[1] end
-
+	local output = {"", ""}
+	if fill_line_y then output[1] = ("%d,%d | LineTo "):format(-10, fill_line_y) end
+	output[1] = output[1] .. ("%d,%d"):format(-10, 0)
+	output[2] = ("LineTo %d,%d"):format(-10, current_y)
 	for i=1,#t do
-		xEnd = map(i, 1, #t, xStart, xMax)
-		yVal = yValNext
-		yValNext = map(t[cl(i+1, 1, #t)], -tScale, tScale, yStart+ySize, yStart-ySize)
-		yEnd = (yVal + yValNext)/2
+		local next_y = clip(map(t[i+1] or t[i], t_min, t_max, curve_min_y, curve_max_y), curve_min_y, curve_max_y)
 
-		table.insert(str, ("CurveTo %d,%d,%d,%d"):format(xEnd, yEnd, xEnd-xCOffset, yVal))
+		-- note: CurveTo end_x,end_y,control_x,control_y
+		table.insert(output, ("CurveTo %d,%d,%d,%d"):format(
+			width_per_segment * i,
+			(current_y + next_y)/2,
+			width_per_segment * i - width_per_segment/2,
+			current_y
+			))
+
+		current_y = next_y
 	end
 
-	if tC.Fill then table.insert(str, ("LineTo %d,%d"):format(tC.Width, tC.FillY)) end
+	if fill_line_y then table.insert(output, ("LineTo %d,%d"):format(curve_max_x, fill_line_y)) end
 
-	return table.concat(str, "|")
+	return table.concat(output, "|")
 end
 
 function Update()
 	local source, dest
-	if bUseMap1 then
-		source = tHeightMap1
-		dest = tHeightMap2
+	if buffer1_is_source then
+		source = buffer1
+		dest = buffer2
 	else
-		source = tHeightMap2
-		dest = tHeightMap1
+		source = buffer2
+		dest = buffer1
 	end
 
-	for i=1,nBars do
+	for i=1,#dest do
 		-- Increase the depth of this bar by the value of the parent band
 		-- The lower frequencies are often very loud compared to the higher ones, so we exponentiate to a scale factor to even things out a bit
-		dest[i] = dest[i] + oMs[ tParentBand[i] ]:GetValue()^tC.ExpScaleFactor
+		dest[i] = dest[i] + config.flip_vertical*(band_measure[ bar_index_to_band[i] ]:GetValue()^config.exp_scale_factor)
 
 		-- Create the "wavy" effect by adding the values of the adjacent bars and dividing by a "spring stiffness" value
-		dest[i] = ( source[cl(i-1, 1, nBars)] + source[cl(i+1, 1, nBars)] ) / tC.Stiffness - dest[i]
+		dest[i] = ( (source[i-1] or source[1]) + (source[i+1] or source[config.bar_count]) ) / config.stiffness - dest[i]
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
-		dest[i] = dest[i] - (dest[i] / tC.Spread)
+		dest[i] = dest[i] - (dest[i] / config.spread)
 	end
 
-	SKIN:Bang("!SetOption", "Shape1", "MyPath", toCurve(dest, 0, tC.Height, tC.Height, tC.Width / nBars, -tC.Scale))
+	if config.anchor_left then dest[1] = 0 end
+	if config.anchor_right then dest[#dest] = 0 end
 
-	bUseMap1 = not bUseMap1
+	SKIN:Bang("!SetOption", "Shape1", "MyPath", drawNiceCurveFromTable(dest, -config.scale, config.scale, 0, config.height, config.width, config.fill and config.fill_y or nil))
+
+	buffer1_is_source = not buffer1_is_source
 end
 
-function cl(var, min, max)
-	if var < min then 
-		return min
-	elseif var > max then
-		return max
+function clip(var, r1, r2)
+	local limit = math.min(r1, r2)
+	if var < limit then
+		return limit
+	end
+
+	limit = math.max(r1, r2)
+	if var > limit then
+		return limit
 	end
 
 	return var
@@ -99,10 +123,6 @@ end
 function map(nVar, nMin1, nMax1, nMin2, nMax2)
 	return nMin2 + (nMax2 - nMin2) * ((nVar - nMin1) / (nMax1 - nMin1))
 end
-function mapi(nVar, nMin1, nMax1, nMin2, nMax2)
-	return math.floor(map(nVar, nMin1, nMax1, nMin2, nMax2))
-end
-
 
 -- Returns a rainmeter variable rounded down to an integer
 function RmGetInt(sVar, iDefault)

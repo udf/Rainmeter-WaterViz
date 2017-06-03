@@ -1,18 +1,33 @@
 [Variables]
 ; The width (in pixels) of the skin
-Width=1280
+Width=1080
 
 ; The total height of the skin
-Height=300
+Height=512
 
 ; Set to 1 to make the skin a filled shape (honestly it's hard to explain, just try it)
 ; FillY is the location of the horizontal line that defines the fill, recommended values are 0 or #Height#
 Fill=1
 FillY=#Height#
 
-; Options for the Shape meter
+; If set to 1, the skin is flipped vertically ("bars" are inverted)
+FlipV=1
+; If set to 1, the skin is flipped horizontally (frequency increases leftwards)
+FlipH=1
+
+; If set to 1, the first "bar" is kept vertically centered
+AnchorLeft=1
+; If set to 1, the last "bar" is kept vertically centered
+AnchorRight=0
+
+; Options for the Shape meters
 ; See for https://docs.rainmeter.net/manual/meters/shape/#AttributeModifiers more info
-CurveOptions=StrokeWidth 3 | Stroke Color FFFFFF00 | Fill Color 0000007F
+; Options for the background of the skin
+BackgroundOptions=StrokeWidth 0 | Fill Color bfdbff | Offset #Height#,0
+; Options for the forground of the skin
+ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset #Height#,-10
+; Options for both the background and foreground of the skin
+SharedOptions=Rotate 90,0,0
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.8)
@@ -28,7 +43,7 @@ Spread=8
 Scale=7
 
 ; Set this to 0 to show a fps counter
-HideFPS=1
+HideFPS=0
 
 ; The number of individual curve sections drawn
 BarCount=256

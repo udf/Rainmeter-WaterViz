@@ -3,11 +3,11 @@
 Width=1080
 
 ; The total height of the skin
-Height=300
+Height=512
 
 ; Set to 1 to make the skin a filled shape (honestly it's hard to explain, just try it)
 ; FillY is the location of the horizontal line that defines the fill, recommended values are 0 or #Height#
-Fill=0
+Fill=1
 FillY=#Height#
 
 ; If set to 1, the skin is flipped vertically ("bars" are inverted)
@@ -16,18 +16,18 @@ FlipV=0
 FlipH=0
 
 ; If set to 1, the first "bar" is kept vertically centered
-AnchorLeft=1
+AnchorLeft=0
 ; If set to 1, the last "bar" is kept vertically centered
 AnchorRight=1
 
 ; Options for the Shape meters
 ; See for https://docs.rainmeter.net/manual/meters/shape/#AttributeModifiers more info
 ; Options for the background of the skin
-BackgroundOptions=StrokeWidth 0 | Fill Color 0,0,0,1
+BackgroundOptions=StrokeWidth 0 | Fill Color bfdbff | Offset #Height#,0
 ; Options for the forground of the skin
-ForegroundOptions=StrokeWidth 3 | Stroke LinearGradient Rainbow
-; Options for both the background and foreground of the skin (see WaterVizFill_* for an example)
-SharedOptions=
+ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset #Height#,-10
+; Options for both the background and foreground of the skin
+SharedOptions=Rotate 90,0,0
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.8)
@@ -59,6 +59,3 @@ FFTOverlap=0
 FreqMin=20
 FreqMax=15000
 Sensitivity=35
-
-[Shape1]
-Rainbow=180 | ED3237;0.0 | F58634;0.16 | FFF212;0.32 | 00A859;0.50 | 00AFEF;0.67 | 0083C8;0.83 | A8518A;1.0

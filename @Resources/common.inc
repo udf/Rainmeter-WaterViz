@@ -1,6 +1,6 @@
 [Rainmeter]
 Update=15
-DynamicWindowSize=1
+;DynamicWindowSize=1
 
 ContextTitle=Rebuild skin
 ContextAction=[!CommandMeasure "LuaRebuilder" "Rebuild()"]
@@ -16,6 +16,8 @@ ExpScaleFactor=0.8
 Stiffness=1.02
 Spread=8
 Scale=7
+FlipV=0
+FlipH=0
 
 ; Requires rebuild
 BarCount=200
@@ -28,6 +30,11 @@ FFTOverlap=16000
 FreqMin=20
 FreqMax=10000
 Sensitivity=30
+
+; Defaults
+BackgroundOptions=Fill Color 0,0,0,1
+ForegroundOptions=StrokeWidth 3 | Stroke Color FFFFFF
+SharedOptions=
 
 [StText]
 StringStyle=Bold
@@ -64,20 +71,13 @@ FreqMax=#FreqMax#
 Sensitivity=#Sensitivity#
 Bands=(#BandCount#+1)
 
-[Bounds]
-Meter=Image
-W=#CURRENTCONFIGWIDTH#
-H=#CURRENTCONFIGHEIGHT#
-DynamicVariables=1
-SolidColor=0,0,0,1
-
 [MeterFPS]
 Meter=String
 MeterStyle=StText
 
 [Shape1]
 Meter=Shape
-X=0
-Y=0
-Shape=Path MyPath | #CurveOptions#
+Shape=Rectangle 0,0,#Width#,#Height# | #BackgroundOptions# | Extend SharedModifiers
+Shape2=Path MyPath | #ForegroundOptions# | Extend SharedModifiers
+SharedModifiers=#SharedOptions#
 MyPath=0,0 | LineTo -1,-1

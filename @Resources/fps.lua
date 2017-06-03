@@ -1,27 +1,15 @@
 function Initialize()
-	oMsSec = SKIN:GetMeasure("MeasureSeconds")
-	iOldVal = oMsSec:GetValue()
-	iFPS = 0
+	measure_seconds = SKIN:GetMeasure("MeasureSeconds")
+	previous_value = measure_seconds:GetValue()
+	current_framecount = 0
 end
 
 function Update()
-	if oMsSec:GetValue() ~= iOldVal then
-		SKIN:Bang("!SetOption", "MeterFPS", "Text", iFPS .. " fps")
-		iFPS = 0
-		iOldVal = oMsSec:GetValue()
+	if measure_seconds:GetValue() ~= previous_value then
+		SKIN:Bang("!SetOption", "MeterFPS", "Text", current_framecount .. " fps")
+		current_framecount = 0
+		previous_value = measure_seconds:GetValue()
 	end
 	
-	iFPS = iFPS + 1
-end
-
-function Disable()
-	SKIN:Bang("!SetOption", "MeterFPS", "Text", "")
-	SetDisabledState(1)
-end
-function Enable()
-	SetDisabledState(0)
-end
-function SetDisabledState(state)
-	SKIN:Bang("!SetOption", "LuaFps", "Disabled", state)
-	SKIN:Bang("!WriteKeyValue", "LuaFps", "Disabled", state, "configurable.inc")
+	current_framecount = current_framecount + 1
 end
