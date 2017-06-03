@@ -47,7 +47,7 @@ function Initialize()
 
 	-- Create a load animation by setting the depth of the water in the center
 	for i=config.bar_count/2-7,config.bar_count/2+7 do
-		buffer1[i] = -3
+		buffer1[i] = -config.scale
 	end
 end
 
