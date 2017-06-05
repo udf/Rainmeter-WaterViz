@@ -105,11 +105,7 @@ function Update()
 	if config.anchor_left then dest[1] = 0 end
 	if config.anchor_right then dest[#dest] = 0 end
 
-	if max > config.scale then
-		print(max)
-	end
-
-	SKIN:Bang("!SetOption", "Shape1", "MyPath", drawNiceCurveFromTable(dest, -config.scale, config.scale, 0, config.height, config.width, config.fill and config.fill_y or nil))
+	SKIN:Bang("!SetOption", "Shape1", "MyPath", drawNiceCurveFromTable(dest, -max, max, 0, config.height, config.width, config.fill and config.fill_y or nil))
 
 	buffer1_is_source = not buffer1_is_source
 end
