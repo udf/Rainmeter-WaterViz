@@ -56,7 +56,7 @@ function drawNiceCurveFromTable(t, t_min, t_max, curve_min_y, curve_max_y, curve
 	local current_y = clip(map(t[1], t_min, t_max, curve_min_y, curve_max_y), curve_min_y, curve_max_y)
 
 	local output = {"", ""}
-	if fill_line_y then output[1] = ("%d,%d | LineTo "):format(-10, fill_line_y) end
+	if fill_line_y ~= nil then output[1] = ("%d,%d | LineTo "):format(-10, fill_line_y) end
 	output[1] = output[1] .. ("%d,%d"):format(-10, 0)
 	output[2] = ("LineTo %d,%d"):format(-10, current_y)
 	for i=1,#t do
@@ -73,7 +73,7 @@ function drawNiceCurveFromTable(t, t_min, t_max, curve_min_y, curve_max_y, curve
 		current_y = next_y
 	end
 
-	if fill_line_y then table.insert(output, ("LineTo %d,%d"):format(curve_max_x, fill_line_y)) end
+	if fill_line_y ~= nil then table.insert(output, ("LineTo %d,%d"):format(curve_max_x, fill_line_y)) end
 
 	return table.concat(output, "|")
 end
