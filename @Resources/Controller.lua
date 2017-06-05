@@ -88,6 +88,7 @@ function Update()
 		dest = buffer1
 	end
 
+	local max = config.scale
 	for i=1,#dest do
 		-- Increase the depth of this bar by the value of the parent band
 		-- The lower frequencies are often very loud compared to the higher ones, so we exponentiate to a scale factor to even things out a bit
@@ -97,10 +98,16 @@ function Update()
 		dest[i] = ( (source[i-1] or source[1]) + (source[i+1] or source[config.bar_count]) ) / config.stiffness - dest[i]
 		-- Decay the spread of the waves by subtracting a fraction (higher values = more spread before dying) of the current height
 		dest[i] = dest[i] - (dest[i] / config.spread)
+
+		if math.abs(dest[i]) > max then max = math.abs(dest[i]) end
 	end
 
 	if config.anchor_left then dest[1] = 0 end
 	if config.anchor_right then dest[#dest] = 0 end
+
+	if max > config.scale then
+		print(max)
+	end
 
 	SKIN:Bang("!SetOption", "Shape1", "MyPath", drawNiceCurveFromTable(dest, -config.scale, config.scale, 0, config.height, config.width, config.fill and config.fill_y or nil))
 
