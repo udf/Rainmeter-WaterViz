@@ -30,8 +30,8 @@ ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset #Height#,-10
 SharedOptions=Rotate 90,0,0
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
-; Best kept at the default (0.8)
-ExpScaleFactor=0.8
+; Best kept at the default (0.7)
+ExpScaleFactor=0.7
 
 ; Controls how "stiff" the liquid is, best kept at the default (1.02)
 Stiffness=1.02
