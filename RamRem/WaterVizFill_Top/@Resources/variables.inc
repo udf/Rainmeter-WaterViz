@@ -10,7 +10,7 @@ Height=512
 Fill=1
 FillY=#Height#
 
-; If set to 1, the skin is flipped vertically ("bars" are inverted)
+; If set to 1, the skin is flipped vertically (direction of the wave is inverted)
 FlipV=0
 ; If set to 1, the skin is flipped horizontally (frequency increases leftwards)
 FlipH=0
@@ -25,7 +25,7 @@ AnchorRight=1
 ; Options for the background of the skin
 BackgroundOptions=StrokeWidth 0 | Fill Color bfdbff | Offset #Height#,0
 ; Options for the forground of the skin
-ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset #Height#,-10
+ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset (#Height#+10),-10
 ; Options for both the background and foreground of the skin
 SharedOptions=Rotate 90,0,0
 
