@@ -10,8 +10,8 @@ Height=512
 Fill=1
 FillY=#Height#
 
-; If set to 1, the skin is flipped vertically ("bars" are inverted)
-FlipV=1
+; If set to 1, the skin is flipped vertically (direction of the wave is inverted)
+FlipV=0
 ; If set to 1, the skin is flipped horizontally (frequency increases leftwards)
 FlipH=1
 
@@ -23,11 +23,11 @@ AnchorRight=0
 ; Options for the Shape meters
 ; See for https://docs.rainmeter.net/manual/meters/shape/#AttributeModifiers more info
 ; Options for the background of the skin
-BackgroundOptions=StrokeWidth 0 | Fill Color bfdbff | Offset #Height#,0
+BackgroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset 0,0
 ; Options for the forground of the skin
-ForegroundOptions=StrokeWidth 0 | Fill Color ffbfce | Offset #Height#,-10
+ForegroundOptions=StrokeWidth 0 | Fill Color bfdbff | Offset 10,0
 ; Options for both the background and foreground of the skin
-SharedOptions=Rotate 90,0,0
+SharedOptions=Rotate 90,0,0 | Scale -1,1,0,0
 
 ; Controls the normalization of the bars. lower values means more normalization is applied
 ; Best kept at the default (0.7)
