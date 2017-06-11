@@ -43,7 +43,7 @@ Spread=8
 Scale=7
 
 ; Set this to 0 to show a fps counter
-HideFPS=0
+HideFPS=1
 
 ; The number of individual curve sections drawn
 BarCount=256
