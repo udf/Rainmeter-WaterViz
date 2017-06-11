@@ -9,7 +9,8 @@
 	[
 		{
 			"name": "RamRem",
-			"cmd": ["rainmeter.exe [!refresh WaterViz\\RamRem\\WaterVizFill_Top][!refresh WaterViz\\RamRem\\WaterVizFill_Bottom][!refresh WaterViz\\RamRem\\Overlay]"]
+			"working_dir": "$file_path",
+			"shell_cmd": "rainmeter [!refresh WaterViz\\RamRem\\WaterVizFill_Top][!refresh WaterViz\\RamRem\\WaterVizFill_Bottom][!refresh WaterViz\\RamRem\\Overlay]"
 		}
 	]
 }
