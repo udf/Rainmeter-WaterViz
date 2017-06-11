@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"build_systems": 
+	[
+		{
+			"name": "RamRem",
+			"cmd": ["rainmeter.exe [!refresh WaterViz\\RamRem\\WaterVizFill_Top][!refresh WaterViz\\RamRem\\WaterVizFill_Bottom][!refresh WaterViz\\RamRem\\Overlay]"]
+		}
+	]
+}
